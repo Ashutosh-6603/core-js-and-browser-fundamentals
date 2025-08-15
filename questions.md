@@ -24,11 +24,11 @@
 
 # Explain CORS and how to handle it.
 
+# Difference between null, undefined, and NaN.
+
 # What is memoization? How would you implement it?
 
 # How does JavaScript handle concurrency?
-
-# Difference between null, undefined, and NaN.
 
 # Implement a polyfill for Array.map().
 
@@ -40,7 +40,7 @@
 
 # Closures, Currying, Higher-Order Functions
 
-# this keyword, Call/Apply/Bind
+# Call/Apply/Bind
 
 # Promises, Async/Await, Error handling
 

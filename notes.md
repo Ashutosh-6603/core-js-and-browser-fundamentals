@@ -369,3 +369,77 @@ A deep copy creates a completely independent clone, including all nested objects
 => Use Deep copy when you need full isolation from the original object's nested data
 
 # How does garbage collection work in JS?
+
+1️⃣ What is Garbage Collection (GC)?
+
+Garbage collection is JavaScript’s way of automatically freeing memory that’s no longer in use.
+
+    - JS runs in a managed memory environment — you don’t explicitly free memory like in C/C++ (free() / delete).
+
+    - The JavaScript engine (V8, SpiderMonkey, etc.) decides when something is no longer needed and removes it.
+
+2️⃣ How JavaScript Decides Something is "No Longer Needed"
+
+JavaScript uses the reachability concept:
+
+Reachable values = values accessible directly or indirectly from:
+
+    - The root objects:
+
+      - window (in browsers)
+
+      - global (in Node.js)
+
+    - Local variables in the current call stack
+
+    - Variables in closures that are still in use
+
+If nothing references a value anymore, it becomes garbage and can be collected.
+
+3️⃣ Main Garbage Collection Algorithm: Mark-and-Sweep
+
+Step-by-step:
+
+1. Mark phase – GC starts from the root objects and marks everything reachable.
+
+2. Sweep phase – Anything not marked is considered unreachable and gets deleted from memory.
+
+3. Freed memory becomes available for reuse.
+
+# Explain CORS and how to handle it.
+
+1️⃣ CORS = Cross-Origin Resource Sharing.
+
+It’s a browser security feature that controls how resources are requested from another domain.
+
+2️⃣ Why CORS Exists
+
+Without CORS, a malicious site could:
+
+    - Log you into your bank’s site in the background.
+
+    - Steal your account details via hidden requests.
+
+    - Read the response — without your consent.
+
+3️⃣ How CORS Works
+
+When you make a cross-origin request:
+
+The browser sends an HTTP request with Origin header.
+
+The server must respond with an Access-Control-Allow-Origin header.
+
+If it matches (or is \*), the browser allows the request.
+
+If not, the browser blocks it.
+
+# Difference between null, undefined, and NaN.
+
+| Feature               | `undefined`                    | `null`                  | `NaN`                         |
+| --------------------- | ------------------------------ | ----------------------- | ----------------------------- |
+| **Meaning**           | Variable declared but no value | Intentional empty value | Invalid number                |
+| **Who sets it?**      | JavaScript (by default)        | Developer               | Result of bad math/conversion |
+| **Type**              | `"undefined"`                  | `"object"` (bug)        | `"number"`                    |
+| **Example**           | `let x;`                       | `let x = null;`         | `Number("abc")`               |
+| **Check with typeof** | `typeof x // "undefined"`      | `typeof x // "object"`  | `typeof NaN // "number"`      |

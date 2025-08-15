@@ -252,3 +252,19 @@ console.log(original.hobbies); // ["coding", "music"] ✅ unaffected
 console.log(deepCopy.hobbies); // ["coding", "music", "traveling"]
 
 // ----------------------------------------------------------------------------- //
+
+// How to handle CORS in nodejs
+
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+
+// This is the client endpoint to allow requests and response to takwe place between
+app.use(cors({ origin: "https://myapp.com" }));
+
+app.get("/data", (req, res) => {
+  res.json({ message: "CORS enabled!" });
+});
+
+app.listen(3000);
