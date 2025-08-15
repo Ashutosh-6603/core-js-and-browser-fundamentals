@@ -234,4 +234,138 @@ new Timer();
 | `this` binding | Dynamic (depends on caller)    | Lexical (from outer scope)         |
 | Best use case  | Object methods, dynamic `this` | Callbacks, preserving outer `this` |
 
-# Explain prototypal inheritance.
+# Explain prototypal inheritance. (Check qna for example)
+
+- In JavaScript, objects can inherit properties and methods from other objects through a chain called the prototype chain.
+
+- Every object has an internal link ([[Prototype]]) to another object.
+
+- That linked object is called the prototype.
+
+- If a property/method is not found on the object itself, JS looks for it in the prototype, then the prototype’s prototype, and so on — until it reaches null.
+
+=> When you create objects using a constructor function:
+
+- All instances share methods through the constructor’s .prototype object.
+
+# What is debouncing vs throttling? Implement both.
+
+1️⃣ Debouncing
+
+Definition:
+Debouncing means grouping a series of rapid calls into a single call, executed only after a specified delay since the last call.
+
+=> When to use:
+
+- Search box input (wait until user stops typing).
+
+- Window resize event (wait until resizing stops).
+
+2️⃣ Throttling
+
+Definition:
+Throttling means ensuring a function is called at most once every X milliseconds, no matter how many times it’s triggered.
+
+=> When to use:
+
+- Scroll events (limit frequency of execution).
+
+- Mouse move tracking.
+
+- Button spam prevention.
+
+3️⃣ Key Difference Table
+
+| Feature          | Debouncing                         | Throttling                               |
+| ---------------- | ---------------------------------- | ---------------------------------------- |
+| Execution timing | After user stops triggering events | At regular intervals while events happen |
+| Use case         | Delay action until input is done   | Limit frequency of action                |
+| Example          | Search bar, form validation        | Scroll tracking, resizing UI elements    |
+
+# What is Promise? Explain states of a promise.
+
+=> A Promise is a JavaScript object that represents the eventual completion or failure of an asynchronous operation.
+
+| State         | Meaning                                                         | Can Change To             |
+| ------------- | --------------------------------------------------------------- | ------------------------- |
+| **pending**   | The async operation is still in progress.                       | `fulfilled` or `rejected` |
+| **fulfilled** | The async operation completed successfully and has a **value**. | _(final state)_           |
+| **rejected**  | The async operation failed and has a **reason** (error).        | _(final state)_           |
+
+=> 5️⃣ Key Points
+
+    - then() → Handles the fulfilled value.
+
+    - catch() → Handles the rejected reason.
+
+    - finally() → Runs regardless of success or failure.
+
+    - Promises are chainable.
+
+# Difference between async/await and .then().
+
+1️⃣ Both Handle Promises
+
+    - .then() and async/await are just two different ways of working with Promises.
+
+    - async/await is essentially syntactic sugar over .then() that makes asynchronous code look synchronous.
+
+- Major Differences
+
+  | Feature                  | `.then()`                                    | `async/await`                             |
+  | ------------------------ | -------------------------------------------- | ----------------------------------------- |
+  | **Code style**           | Chained callbacks                            | Looks synchronous                         |
+  | **Readability**          | Can get messy if many steps (promise chains) | Cleaner, easier to follow                 |
+  | **Error handling**       | `.catch()` for errors                        | `try...catch` for errors                  |
+  | **Debugging**            | Stack traces can be harder to follow         | Easier to debug with normal `try...catch` |
+  | **Sequential execution** | Must chain manually                          | Natural with `await`                      |
+  | **Parallel execution**   | Use `Promise.all()`                          | Still use `Promise.all()` with `await`    |
+
+- Important Points
+
+  - Inside an async function, await pauses execution until the promise resolves/rejects.
+
+  - await can only be used inside functions declared with async.
+
+  - .then() works anywhere — no need for async keyword.
+
+  - Under the hood, async/await still uses promises — it’s not a separate mechanism.
+
+# Explain shallow copy vs deep copy in JavaScript.
+
+1️⃣ Shallow Copy
+
+A shallow copy creates a new object, but nested objects/arrays are still referenced, not cloned.
+
+    - Only the first level is copied.
+
+    - Changes in nested objects affect both copies.
+
+📌 Common shallow copy methods:
+
+    - Spread operator { ...obj }
+
+    - Object.assign({}, obj)
+
+    - Array.prototype.slice() or concat()
+
+2️⃣ Deep Copy
+
+A deep copy creates a completely independent clone, including all nested objects/arrays.
+
+    - No shared references.
+
+    - Changes in one do not affect the other.
+
+📌 Ways to deep copy:
+
+    - JSON.parse(JSON.stringify(obj) → simple but loses functions, undefined, Date, etc.
+
+    - structuredClone(obj) → modern and preserves more data types.
+
+    - Libraries like Lodash: \_.cloneDeep(obj)
+
+=> Shallow copy is faster because it doesnt clone everything
+=> Use Deep copy when you need full isolation from the original object's nested data
+
+# How does garbage collection work in JS?
