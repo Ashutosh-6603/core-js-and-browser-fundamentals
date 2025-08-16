@@ -443,3 +443,144 @@ If not, the browser blocks it.
 | **Type**              | `"undefined"`                  | `"object"` (bug)        | `"number"`                    |
 | **Example**           | `let x;`                       | `let x = null;`         | `Number("abc")`               |
 | **Check with typeof** | `typeof x // "undefined"`      | `typeof x // "object"`  | `typeof NaN // "number"`      |
+
+# What is memoization? How would you implement it?
+
+- Memoization is an optimization technique where we cache the results of expensive function calls and return the cached result when the same inputs occur again.
+
+- Memoization vs Caching:
+
+  - Memoization: Function-level caching (specific to input-output of a function).
+
+  - Caching: Broader concept (DB cache, CDN cache, API cache, etc).
+
+✅ So, memoization = store function results for re-use.
+It’s one of the building blocks of performance optimization in JS.
+
+# How does JavaScript handle concurrency?
+
+1. Single Thread & Call Stack
+
+   - JavaScript runs on a single thread.
+
+   - Only one line of code executes at a time in the call stack.
+
+2. Event Loop
+
+   - JavaScript doesn’t block when waiting for slow operations (like API calls, setTimeout, file reads).
+
+   - Instead, it delegates them to the Web APIs (in browsers) or libuv (thread pool) in Node.js.
+
+   - Once completed, callbacks are queued in the task queues and executed when the call stack is free.
+
+3. Task Queues
+
+There are two main queues:
+
+    1. Macro-task Queue (Task Queue):
+
+        - setTimeout, setInterval, DOM events, setImmediate (Node).
+
+    2. Micro-task Queue (Job Queue):
+
+        - Promise.then, async/await, queueMicrotask, MutationObserver.
+
+👉 Rule: Micro-tasks are processed before the next macro-task.
+
+4. Concurrency Model
+
+JavaScript achieves concurrency using:
+
+    - Event loop to schedule tasks.
+
+    - Async callbacks / Promises to avoid blocking.
+
+    - Web APIs / libuv for offloading heavy tasks (I/O, timers, networking).
+
+This way, JS feels asynchronous even though execution is single-threaded.
+
+# What are web workers and when to use them?
+
+- Web Workers are a way to run JavaScript in background threads separate from the main thread (UI thread).
+
+- They allow you to perform CPU-intensive or long-running tasks without blocking the main thread (which handles DOM, rendering, and user interaction).
+
+- 👉 Think of them as helpers that take heavy work away from your main code so the page doesn’t freeze.
+
+🔹 Key Features
+
+    - Run in parallel threads (not sharing the call stack with the main thread).
+
+    - No access to the DOM (to avoid race conditions).
+
+    - Communicate with the main thread using message passing (postMessage & onmessage).
+
+    - Great for heavy computations like image processing, data parsing, encryption, ML models.
+
+- Web Workers = true parallelism in JS (not just async event loop).
+
+- Web Workers vs Promises/async-await:
+
+  - Promises still run on the main thread (non-blocking, but not parallel).
+
+  - Web Workers use separate threads, so they scale heavy CPU-bound work.
+
+# Difference between localStorage, sessionStorage, and cookies.
+
+| Feature            | **localStorage**                                     | **sessionStorage**                                | **Cookies**                                                                                     |
+| ------------------ | ---------------------------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **Capacity**       | \~5–10 MB (per origin)                               | \~5 MB (per origin)                               | \~4 KB                                                                                          |
+| **Persistence**    | Until manually cleared                               | Until tab/window is closed                        | Can persist (with expiry) or session-only                                                       |
+| **Scope**          | Same-origin across all tabs/windows                  | Only current tab/window                           | Sent with every HTTP request (same-origin, unless `SameSite`/`Secure`/`Domain` rules change it) |
+| **Accessibility**  | JavaScript (via `localStorage`)                      | JavaScript (via `sessionStorage`)                 | Both JavaScript (`document.cookie`) and server (via request headers)                            |
+| **Use Cases**      | Caching app state, storing preferences, offline apps | Temporary per-tab data (form state, wizard steps) | Authentication tokens, server-side sessions, cross-request tracking                             |
+| **Security**       | Vulnerable to XSS (data accessible by JS)            | Vulnerable to XSS                                 | Vulnerable to XSS **and** CSRF (since auto-sent with requests)                                  |
+| **Network Impact** | Stored locally only, not sent with requests          | Same                                              | Sent with every request → affects performance                                                   |
+
+🔹 Interview Tip
+
+- localStorage/sessionStorage → client-only storage, larger capacity, better for state.
+
+- Cookies → smaller, auto-sent to server, essential for sessions/auth.
+
+- Always mention security concerns:
+
+  - Never store sensitive data (passwords, JWTs) in localStorage/sessionStorage (XSS risk).
+
+  - Use HttpOnly and Secure flags for cookies.
+
+# Explain event delegation with an example.
+
+- Event Delegation is a technique where you attach a single event listener to a parent element instead of attaching it to multiple child elements.
+
+- It works because of event bubbling:
+
+  - An event first happens on the target element.
+
+  - Then it “bubbles up” through ancestors until it reaches document.
+
+  - So, the parent can "catch" events from its children.
+
+🔹 Why Use Event Delegation?
+
+✅ Better performance (fewer event listeners → less memory usage).
+✅ Handles dynamic elements (works even if child elements are added later).
+✅ Cleaner and more maintainable code.
+
+# Currying, Higher-Order Functions with examples
+
+🔹 1. Higher-Order Functions (HOFs)
+
+👉 A Higher-Order Function is a function that either:
+
+- Takes another function as an argument (callback).
+
+- Returns a new function.
+
+Example - map, filter, reduce are all higher order functions that take a function as an argument.
+
+🔹 2. Currying
+
+👉 Currying is a technique of transforming a function that takes multiple arguments into a sequence of functions that each take a single argument.
+
+# Call/Apply/Bind

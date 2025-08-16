@@ -220,12 +220,12 @@ const originalForShallow = {
   address: { city: "Bhubaneswar", pin: 751001 },
 };
 
-const shallowCopy = { ...original }; // spread operator
+const shallowCopy = { ...originalForShallow }; // spread operator
 
 shallowCopy.name = "John"; // ✅ changes only in copy
 shallowCopy.address.city = "Delhi"; // ⚠ changes in both!
 
-console.log(original.address.city); // "Delhi" — because nested object was shared
+console.log(originalForShallow.address.city); // "Delhi" — because nested object was shared
 
 // Example of deep copy
 const originalForDeep = {
@@ -234,14 +234,14 @@ const originalForDeep = {
 };
 
 // Simple deep copy using JSON
-const deepCopy = JSON.parse(JSON.stringify(original));
+const deepCopy = JSON.parse(JSON.stringify(originalForDeep));
 
 deepCopy.address.city = "Delhi"; // changes only in copy
 
-console.log(original.address.city); // "Bhubaneswar" — stays intact
+console.log(originalForDeep.address.city); // "Bhubaneswar" — stays intact
 
 // Simple deep copy using structuredClone
-const deepCopy = structuredClone(original);
+const deepCopy = structuredClone(originalForDeep);
 
 // Modify the copy
 deepCopy.address.city = "Delhi";
@@ -268,3 +268,114 @@ app.get("/data", (req, res) => {
 });
 
 app.listen(3000);
+
+// ----------------------------------------------------------------------------- //
+
+// Polyfill for Array.map()
+Array.prototype.myMap = function (callback) {
+  let temp = [];
+
+  for (let i = 0; i < this.length; i++) {
+    temp.push(callback(this[i], i, this));
+  }
+
+  return temp;
+};
+
+const numsForMap = [1, 2, 3, 4];
+
+const multiply = numsForMap.myMap((x) => {
+  return x * 2;
+});
+
+console.log(multiply);
+
+// Polyfill for Array.filter()
+
+Array.prototype.myFilter = function (callback) {
+  let temp = [];
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i], i, this)) temp.push(this[i]);
+  }
+  return temp;
+};
+
+const numsForFilter = [1, 2, 3, 4];
+
+const FilterOdd = numsForFilter.myFilter((x) => {
+  return x % 2;
+});
+
+console.log(FilterOdd);
+
+// Polyfill for reduce()
+
+Array.prototype.myReduce = function (callback, initial_value) {
+  var acc = initial_value;
+  for (let i = 0; i < this.length; i++) {
+    acc = acc ? callback(acc, this[i], i, this) : this[i];
+  }
+  return acc;
+};
+
+const nums = [1, 2, 3, 4];
+
+const sum = nums.myReduce((acc, curr, i, nums) => {
+  return acc + curr;
+}, 0);
+
+console.log(sum);
+
+// ----------------------------------------------------------------------------- //
+
+// Example without eventg delegation
+// Attaching click event to each button individually
+// So if one adds a button dynamically later, it wont possess this event
+const buttons = document.querySelectorAll(".btn");
+
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    console.log("Button clicked:", button.innerText);
+  });
+});
+
+// Example with event delegation
+const container = document.getElementById("button-container");
+
+// Attach only ONE event listener
+// In this case, even if a button is added dynamically with the required class, then it will possess the event
+container.addEventListener("click", (event) => {
+  if (event.target && event.target.classList.contains("btn")) {
+    console.log("Button clicked:", event.target.innerText);
+  }
+});
+
+// ----------------------------------------------------------------------------- //
+
+// Example of Higher Order Function
+const higherOrderFunctionNums = [1, 2, 3, 4, 5];
+
+const squares = higherOrderFunctionNums.map((n) => n * 2); // [2,4,6,8,10]
+const evens = higherOrderFunctionNums.filter((n) => n % 2 === 0); // [2,4]
+const sums = higherOrderFunctionNums.reduce((acc, n) => acc + n, 0); // 15
+
+// Example of Currying
+// Curried function for building API endpoints
+function apiBuilder(baseUrl) {
+  return function (resource) {
+    return function (id) {
+      return `${baseUrl}/${resource}/${id}`;
+    };
+  };
+}
+
+// Initialize for environment
+const prodApi = apiBuilder("https://api.myapp.com");
+const devApi = apiBuilder("http://localhost:4000");
+
+// Specific resource helpers
+const userApi = prodApi("users");
+const orderApi = prodApi("orders");
+
+console.log(userApi(123)); // https://api.myapp.com/users/123
+console.log(orderApi(789)); // https://api.myapp.com/orders/789

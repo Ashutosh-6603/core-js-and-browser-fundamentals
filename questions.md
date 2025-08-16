@@ -38,7 +38,7 @@
 
 # Explain event delegation with an example.
 
-# Closures, Currying, Higher-Order Functions
+# Currying, Higher-Order Functions
 
 # Call/Apply/Bind
 
@@ -53,7 +53,3 @@
 # Browser Concepts:
 
     DOM manipulation
-    Event Delegation
-    Debouncing & Throttling
-    LocalStorage, SessionStorage, Cookies
-    Web Workers
