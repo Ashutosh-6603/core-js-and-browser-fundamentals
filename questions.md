@@ -42,7 +42,7 @@
 
 # Call/Apply/Bind
 
-# Promises, Async/Await, Error handling
+# Error handling
 
 # Prototypes, Inheritance, Classes
 

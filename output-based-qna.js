@@ -379,3 +379,80 @@ const orderApi = prodApi("orders");
 
 console.log(userApi(123)); // https://api.myapp.com/users/123
 console.log(orderApi(789)); // https://api.myapp.com/orders/789
+
+// ----------------------------------------------------------------------------- //
+
+// Example of call, apply and bind
+// Call and Apply
+const student = { name: "Neha" };
+const teacher = { name: "Rahul" };
+
+function introduce(subject) {
+  console.log(`I am ${this.name}, I teach/learn ${subject}`);
+}
+
+introduce.call(student, "Math"); // I am Neha, I teach/learn Math
+introduce.apply(teacher, ["Physics"]); // I am Rahul, I teach/learn Physics
+
+// Bind
+const person = {
+  name: "Ashutosh",
+  greet: function () {
+    console.log("Hello, I am " + this.name);
+  },
+};
+
+const boundGreet = person.greet.bind(person);
+boundGreet();
+// ✅ "Hello, I am Ashutosh"
+
+// ----------------------------------------------------------------------------- //
+
+// ES6+ Features (Destructuring, Spread, Rest, Optional Chaining)
+
+// Destructuring
+const userDestructuring = { id: 1, name: "Ashutosh", role: "Developer" };
+
+// ES6 Destructuring
+const { name, role } = user;
+console.log(name, role); // "Ashutosh", "Developer"
+
+// Spread Operator
+// Example Array
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+const merged = [...arr1, ...arr2];
+
+console.log(merged); // [1, 2, 3, 4]
+
+// Example Object
+const user = { name: "Ashutosh", role: "Dev" };
+const updatedUser = { ...user, role: "Senior Dev" };
+
+console.log(updatedUser);
+// { name: "Ashutosh", role: "Senior Dev" }
+
+// Rest Operator
+// Function Params
+function sum(...nums) {
+  return nums.reduce((a, b) => a + b, 0);
+}
+
+console.log(sum(1, 2, 3, 4)); // 10
+
+// Example Object
+const userRest = { id: 1, name: "Ashutosh", role: "Dev" };
+const { id, ...rest } = userRest;
+
+console.log(id); // 1
+console.log(rest); // { name: "Ashutosh", role: "Dev" }
+
+// Optional Chaining
+const userOptionalChaining = {
+  profile: {
+    name: "Ashutosh",
+  },
+};
+
+console.log(userOptionalChaining.profile?.name); // "Ashutosh"
+console.log(userOptionalChaining.address?.city); // undefined (no error)

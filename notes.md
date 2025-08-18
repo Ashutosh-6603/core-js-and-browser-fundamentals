@@ -584,3 +584,78 @@ Example - map, filter, reduce are all higher order functions that take a functio
 👉 Currying is a technique of transforming a function that takes multiple arguments into a sequence of functions that each take a single argument.
 
 # Call/Apply/Bind
+
+🔹 call()
+
+- Executes the function immediately
+
+- Pass arguments individually
+
+🔹 apply()
+
+- Executes the function immediately
+
+- Pass arguments as an array
+
+🔹 bind()
+
+- Does NOT execute immediately
+
+- It doesnt call the function immediately rather returns a new function with "this" fixed
+
+- Useful when you want to reuse later
+
+# Error handling
+
+- Types of Error
+
+  1. Syntax Error
+  2. Reference Error
+  3. Type Error
+  4. Range Error
+  5. Custom Error(created with "throw" keyword)
+
+# ES6+ Features (Destructuring, Spread, Rest, Optional Chaining)
+
+- Destructuring → Extract values directly from arrays/objects.
+
+- Spread (...) → Expands data (e.g., merge arrays/objects).
+
+- Rest (...) → Collects multiple values into one.
+
+- Optional chaining (?.) → Prevents errors when accessing nested properties.
+
+# Modules (CommonJS vs ESM)
+
+| Feature            | CommonJS (CJS)              | ES Modules (ESM)                              |
+| ------------------ | --------------------------- | --------------------------------------------- |
+| Syntax             | `require`, `module.exports` | `import`, `export`                            |
+| Execution          | Synchronous (blocking)      | Asynchronous (non-blocking)                   |
+| Default in Node.js | Yes (older versions)        | Yes (modern versions with `"type": "module"`) |
+| File extensions    | `.js`                       | `.mjs` or `.js` (with config)                 |
+| Used in Browsers   | ❌ (not natively)           | ✅ (native support in browsers)               |
+
+# DOM Manipulation
+
+DOM manipulation is the process of using JavaScript to select, update, add, or remove HTML elements dynamically in a webpage. It allows developers to make web apps interactive without reloading the page.
+
+Examples -
+const title = document.getElementById("title"); // select by id
+const buttons = document.querySelectorAll("button"); // select all
+
+title.textContent = "Hi, DOM!";
+title.innerHTML = "<span style='color:red'>Hi, DOM!</span>";
+
+title.style.color = "blue";
+title.style.fontSize = "24px";
+
+const newEl = document.createElement("p");
+newEl.textContent = "I was added!";
+document.body.appendChild(newEl);
+
+title.remove(); // removes the h1
+
+const btn = document.querySelector("button");
+btn.addEventListener("click", () => {
+alert("Button clicked!");
+});
